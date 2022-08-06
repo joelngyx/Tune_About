@@ -1,23 +1,20 @@
 import logo from './logo.svg';
 import './App.css';
+import LandingPage from './pages/landing-page/LandingPage.js';
+import Test from './test.jpg';
+import {Helmet} from 'react-helmet';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Helmet>
+        <style>{"body {background-color: #DD702C; overflow-x: hidden}"}</style>
+      </Helmet>
+      <div className='row d-flex'>
+          <div className='container justify-content-center'>
+            <LandingPage/>
+          </div>
+        </div>
     </div>
   );
 }
