@@ -16,7 +16,7 @@ const LandingPage = () => {
     if(artist === '' || song === '') {
       setError('fields cannot be empty!')
     } else {
-      navigate('./results', {state: {artist: artist, song: song}});
+      navigate('/results', {state: {artist: artist, song: song}});
     }
   }
 
@@ -29,10 +29,7 @@ const LandingPage = () => {
   const submitText = {color: "#DD702C", fontFamily: "Courier New", fontSize: 20, fontWeight: 300, backgroundColor: "black", border: 'none'};
 
   return (
-    <motion.div
-      initial={{width: 0}}
-      animate={{width: '100%'}}
-      exit={{x: '100%'}}>
+    <motion.div initial={{width: 0}} animate={{width: '100%'}} exit={{x: '100%'}}>
       <Helmet>
         <style>{"body {background-color: #DD702C; overflow-x: hidden}"}</style>
       </Helmet>

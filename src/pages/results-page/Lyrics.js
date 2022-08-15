@@ -15,7 +15,7 @@ const Lyrics = (props) => {
     const getLyrics = async() => {
       await Axios.get(`https://api.lyrics.ovh/v1/${artist}/${song}`).then(res => {
         let rawData = res.data.lyrics;
-        let result = rawData.replace('/s', '&');
+        let result = rawData.replace(/[\n]+/gm, '\n');
         setLyrics(result);
       });
     }
@@ -41,7 +41,12 @@ const Lyrics = (props) => {
         <Card className='text-center'>
           <Card.Body>
             <Card.Title>lyrics</Card.Title>
-            <Card.Text><pre>{lyrics}</pre></Card.Text>
+            <Card.Text 
+              style={{overflowWrap: 'anywhere'}}>
+                <p style={{
+                  whiteSpace: 'pre-wrap'
+                }}>{lyrics}</p>
+            </Card.Text>
           </Card.Body>
         </Card>
       </Fragment>
