@@ -1,20 +1,14 @@
 import logo from './logo.svg';
 import './App.css';
 import LandingPage from './pages/landing-page/LandingPage.js';
-import Test from './test.jpg';
-import {Helmet} from 'react-helmet';
+import { Helmet } from 'react-helmet';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import AnimatedRoutes from './components/AnimatedRoutes';
 
 function App() {
   return (
     <div className="App">
-      <Helmet>
-        <style>{"body {background-color: #DD702C; overflow-x: hidden}"}</style>
-      </Helmet>
-      <div className='row d-flex'>
-          <div className='container justify-content-center'>
-            <LandingPage/>
-          </div>
-        </div>
+      <AnimatedRoutes/>
     </div>
   );
 }

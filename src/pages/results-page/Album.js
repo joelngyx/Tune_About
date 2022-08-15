@@ -18,6 +18,7 @@ const Album = (props) => {
         artist: `${artist}`
       }, 1000
     ).then((value) => {
+      console.log('hey!')
       console.log(value);
       setSong(song.toLowerCase());
       setArtist(value.artist.toLowerCase());

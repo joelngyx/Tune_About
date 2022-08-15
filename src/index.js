@@ -4,15 +4,12 @@ import './index.css';
 import App from './App';
 import ResultsPage from './pages/results-page/ResultsPage'
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import {BrowserRouter, Routes, Route} from 'react-router-dom';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
-    <Routes>
-      <Route path='/' element={<App/>} />
-      <Route path='/results' element={<ResultsPage/>}/>
-    </Routes>
+    <App/>
   </BrowserRouter>
 );
 

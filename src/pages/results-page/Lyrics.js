@@ -3,6 +3,7 @@ import Axios from 'axios';
 import Card from 'react-bootstrap/Card';
 import Loading from '../../assets/loading.gif'
 
+
 const Lyrics = (props) => {
   const [artist, setArtist] = useState(props.artist);
   const [song, setSong] = useState(props.song);
@@ -13,8 +14,9 @@ const Lyrics = (props) => {
   useEffect(() => {
     const getLyrics = async() => {
       await Axios.get(`https://api.lyrics.ovh/v1/${artist}/${song}`).then(res => {
-        console.log(res.data.lyrics);
-        setLyrics(res.data.lyrics);
+        let rawData = res.data.lyrics;
+        let result = rawData.replace('/s', '&');
+        setLyrics(result);
       });
     }
 
@@ -36,7 +38,7 @@ const Lyrics = (props) => {
   } else {
     return(
       <Fragment>
-        <Card className='text-center overflow-scroll' style={{height: '85vh', overflow: 'scroll'}}>
+        <Card className='text-center'>
           <Card.Body>
             <Card.Title>lyrics</Card.Title>
             <Card.Text><pre>{lyrics}</pre></Card.Text>
