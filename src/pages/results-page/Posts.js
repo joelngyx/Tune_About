@@ -1,34 +1,17 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
+import DefaultImg from '../../assets/default.jpeg';
 
 const Posts = (props) => {
   const [posts, setPosts] = useState([]);
-  const [artist, setArtist] = useState(props.artist);
+  const [artist, setArtist] = useState(props.artist.replace(' ', ''));
   const [album, setAlbum] = useState('');
   const [song, setSong] = useState(props.song);
 
-  useEffect(() => {
-    const getPostsFromRMusic = async() => {
-      await fetch(`https://www.reddit.com/r/Music/search.json?q=${artist}%20${song}%20${album}&restrict_sr=1&sr_nsfw=&sort=relevance&t=all`).then(
-        res => {
-          if (res.status !== 200) {
-            console.log('warning - something went wrong 2');
-            return;
-          } 
-          res.json().then(data => {
-            if (data != null) {
-              let results = data.data.children;
-              for (let count = 0; count < results.length; count++) {
-                console.log(results[count].data);
-              }
-            } else {
-              console.log('does not exist!');
-            }
-          })
-        }
-      )
-    }
 
+  // https://www.reddit.com/r/Music/search.json?q=${artist}%20${song}%20${album}&restrict_sr=1&sr_nsfw=&sort=relevance&t=all
+  useEffect(() => {
     const getPostsFromRArtist = async() => {
       await fetch(`https://www.reddit.com/r/${artist}/search.json?q=${song}%20${album}&restrict_sr=1&sr_nsfw=&sort=relevance&t=all`).then(
         res => {
@@ -40,34 +23,53 @@ const Posts = (props) => {
             if (data != null) {
               let results = data.data.children;
               console.log(results);
-              console.log(results.length);
-              console.log(results[0].data.permalink);
               for(let count = 0; count < results.length; count++) {
-                console.log(`count = ${count}`);
-                setPosts(posts => [...posts, {key: count, permalink: results[count].data.permalink}]);
+                setPosts(posts => [...posts, {key: count, 
+                  url: results[count].data.url, title: results[count].data.title,
+                  thumbnail: results[count].data.thumbnail}]);
               }
-              console.log(posts);
             } else {
               console.log('warning - subreddit might not exist');
-              getPostsFromRMusic().catch(console.log);
             }
           })
         }
       )
     }
 
+    // const setDefaultImg = () => {
+    //   for(let count = 0; count < posts.length; count++) {
+    //     if(posts[count].)
+    //   }
+    // }
+
     console.log('looking up reddit...');
     getPostsFromRArtist().catch(console.log);
   }, [])
 
+  const title = {color: "black", fontFamily: "Courier New", fontSize: 13, fontWeight: 300};
+
+  function openTab(url) {
+    console.log(url);
+    window.open(url, '_blank', 'noopener,noreferrer');
+  };
+
   return(
     <Fragment>
-      {posts.map((post) => (
-        // <Card className='text-left' style={{width: '25vw', height: '20vh', overflow: 'scroll'}}>
-
-        // </Card>
-        <p>{post.permalink}</p>
-      ))}
+      <div className='row d-flex justify-content-center'>
+          {posts.map((post) => (
+            <div className='col-5 col-md-4 col-lg-3 m-3 text-center' style={{border: '1px solid'}}>
+              <div className='row d-flex justify-content-center'>
+                <img src={post.thumbnail} style={{height: '10rem', width: '10rem'}}/>
+              </div>
+              <div className='row d-flex justify-content-center'>
+                <p style={title}>{post.title}</p>
+              </div>
+              <div className='row d-flex justify-content-center'>
+              <Button onClick={() => {openTab(post.url)}}>view on Reddit</Button>
+              </div>
+            </div>
+          ))}
+      </div>
     </Fragment>
   )
 } 

@@ -7,7 +7,7 @@ import AnimatedRoutes from './components/AnimatedRoutes';
 
 function App() {
   return (
-    <div className="App">
+    <div className="App" style={{overflowX: 'hidden'}}>
       <AnimatedRoutes/>
     </div>
   );

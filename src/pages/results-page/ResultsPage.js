@@ -51,8 +51,8 @@ const ResultsPage = () => {
   } else {
     return(
       <motion.div initial={{width: 0}} animate={{width: '100%'}} exit={{x: '100%'}}>
-        <div className='row'>
-          <div className='col-12 col-md-4'>
+        <div className='row d-flex justify-content-center'>
+          <div className='col-12 col-md-5'>
             <div className='container mt-5 p-5' style={{border: '1px solid'}}>
               <Album artist={artist} song={song}/>
               <div className='container p-0 mt-5' 
@@ -61,7 +61,7 @@ const ResultsPage = () => {
               </div>
             </div>
           </div>
-          <div className='col-12 col-md-8'>
+          <div className='col-12 col-md-7 mt-5' style={{border: '1px solid'}}>
             <Button onClick={() => {
               backBtn();
             }}>Look up another song</Button>
