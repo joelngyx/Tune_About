@@ -90,7 +90,7 @@ const Posts = (props) => {
         <div className='col-12'>
           <div className='row d-flex justify-content-center'>
               {posts.map((post) => (
-                <div className='col-10 col-md-5 m-3 text-center p-3' style={postStyle}>
+                <div className='col-10 col-lg-5 m-3 text-center p-3' style={postStyle}>
                   <h2 style={title}>{post.title}</h2> 
                   <div className='row d-flex justify-content-center'>
                   {/* eslint-disable-next-line */}

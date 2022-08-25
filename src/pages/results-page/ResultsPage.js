@@ -62,13 +62,15 @@ const ResultsPage = () => {
               </div>
             </div>
           </div>
-          <div className='col-12 col-md-7 mt-4 p-3'>
+          <div className='col-12 col-md-7 p-0'>
+            <div className='container mt-4 p-3'>
               <h1 style={titleText}>viewing results from:</h1>
               <SelectionButton setFetchType={setFetchType} fetchType={fetchType} btnType={0} name="artist's subreddit"/>
               <SelectionButton setFetchType={setFetchType} fetchType={fetchType} btnType={1} name="r/music"/>
               <SelectionButton setFetchType={setFetchType} fetchType={fetchType} btnType={2} name="r/all"/>
-            <div className='row d-flex justify-content-center p-0'>
-              <Posts artist={artist} song={song} fetchType={fetchType}/>
+              <div className='row d-flex justify-content-center p-0'>
+                <Posts artist={artist} song={song} fetchType={fetchType}/>
+              </div>
             </div>
           </div>
         </div>
