@@ -54,20 +54,20 @@ const ResultsPage = () => {
           <style>{"body {background-color: #F08756; overflow-x: hidden}"}</style>
         </Helmet>
         <div className='row d-flex justify-content-center'>
-          <div className='col-12 col-md-5 '>
-            <div className='container mt-3 p-5'>
+          <div className='col-12 col-md-5 p-0'>
+            <div className='container mt-2 p-5'>
               <Album artist={artist} song={song}/>
               <div className='container p-0 mt-5'>
                 <Lyrics artist={artist} song={song}/>
               </div>
             </div>
           </div>
-          <div className='col-12 col-md-7 mt-3 p-5'>
+          <div className='col-12 col-md-7 mt-4 p-3'>
               <h1 style={titleText}>viewing results from:</h1>
               <SelectionButton setFetchType={setFetchType} fetchType={fetchType} btnType={0} name="artist's subreddit"/>
               <SelectionButton setFetchType={setFetchType} fetchType={fetchType} btnType={1} name="r/music"/>
               <SelectionButton setFetchType={setFetchType} fetchType={fetchType} btnType={2} name="r/all"/>
-            <div className='row'>
+            <div className='row d-flex justify-content-center p-0'>
               <Posts artist={artist} song={song} fetchType={fetchType}/>
             </div>
           </div>

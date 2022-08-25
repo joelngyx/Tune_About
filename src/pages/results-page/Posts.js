@@ -72,7 +72,7 @@ const Posts = (props) => {
   }, [apiString])
 
   // styles 
-  const title = {color: "white", fontFamily: "Courier New", fontSize: 18, fontWeight: 800};
+  const title = {color: "white", fontFamily: "Courier New", fontSize: 16, fontWeight: 800};
   const errorStyle = {color: "black", fontFamily: "Courier New", fontSize: 22, fontWeight: 800};
   const bodyText = {color: "white", fontFamily: "Courier New", fontSize: 16, fontWeight: 100, overflowWrap: 'break-word'};
   const postStyle = {backgroundColor: 'black', borderRadius: '5px', overflowWrap: 'break-word'};
@@ -87,35 +87,37 @@ const Posts = (props) => {
   if (posts.length > 0) {
     return(
       <Fragment>
-        <div className='row d-flex justify-content-center'>
-            {posts.map((post) => (
-              <div className='col-10 col-md-5 m-3 text-center p-3' style={postStyle}>
-                <h2 style={title}>{post.title}</h2> 
-                <div className='row d-flex justify-content-center'>
-                {/* eslint-disable-next-line */}
-                  <img src={post.thumbnail} style={{height: '10rem', width: '15rem', objectFit: 'contain'}}/>
-                </div>
-                <div className='row d-flex justify-content-center'>
-                  <div className='container mx-3 mt-3'>
-                    <p style={bodyText}>{post.selfText}</p>
+        <div className='col-12'>
+          <div className='row d-flex justify-content-center'>
+              {posts.map((post) => (
+                <div className='col-10 col-md-5 m-3 text-center p-3' style={postStyle}>
+                  <h2 style={title}>{post.title}</h2> 
+                  <div className='row d-flex justify-content-center'>
+                  {/* eslint-disable-next-line */}
+                    <img src={post.thumbnail} style={{height: '10rem', width: '15rem', objectFit: 'contain', overflow: 'hidden'}}/>
+                  </div>
+                  <div className='row d-flex justify-content-center'>
+                    <div className='container mx-3 mt-3'>
+                      <p style={bodyText}>{post.selfText}</p>
+                    </div>
+                  </div>
+                  <div className='row d-flex justify-content-center'>
+                  <Button style={btnText} onClick={() => {openTab(post.permalink)}}>view on Reddit</Button>
                   </div>
                 </div>
-                <div className='row d-flex justify-content-center'>
-                <Button style={btnText} onClick={() => {openTab(post.permalink)}}>view on Reddit</Button>
-                </div>
-              </div>
-            ))}
+              ))}
+          </div>
         </div>
       </Fragment>
     )
   } else {
     return (
       <Fragment>
-        <div className='col-12'>
+        <div className='col-10'>
         {/* eslint-disable-next-line */}
           <img className='mt-5' src={LlamaSVG} style={{width: '15rem'}}/>
         </div>  
-        <div className='col-12'>
+        <div className='col-10'>
           <h1 className='mt-2' style={errorStyle}>no posts found</h1>
         </div>
       </Fragment>)

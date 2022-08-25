@@ -31,7 +31,7 @@ const Album = (props) => {
         1000
       ).then((value) => {
           setSong(song.toLowerCase());
-          setAlbum(' by ' + value.artist.toLowerCase() + 'from ' + value.album.toLowerCase());
+          setAlbum(' by ' + value.artist.toLowerCase() + ' from ' + value.album.toLowerCase());
           setCover(value.artwork);
         }
       );
@@ -50,14 +50,14 @@ const Album = (props) => {
     <Fragment>
       <Card className='text-center p-4' style={{backgroundColor: 'black', color: 'white'}}>
         <Card.Img variant='top' src={cover} style={{width: '10rem', alignSelf: 'center'}}/>
-        <Card.Body>
+        <Card.Body style={{alignSelf: 'center'}}>
           <Card.Title style={titleText}>
             {song}
           </Card.Title>
           <Card.Text style={bodyText}>
             {album}
           </Card.Text>
-          <Button onClick={backBtn} style={btnText}>search for another song</Button>
+          <Button onClick={backBtn} style={btnText}>make another search</Button>
         </Card.Body>
       </Card>
     </Fragment>
