@@ -1,5 +1,5 @@
-import React, { Fragment, useEffect, useState} from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import Lyrics from './Lyrics';
 import Album from './Album';
 import Posts from './Posts';
@@ -7,7 +7,9 @@ import SelectionButton from './SelectionButton';
 import { motion } from 'framer-motion';
 import { Helmet } from 'react-helmet';
 
+// eslint-disable-next-line
 let albumArt = require('album-art');
+// eslint-disable-next-line
 let musicInfo = require('music-info');
 
 const ResultsPage = () => {
@@ -37,6 +39,7 @@ const ResultsPage = () => {
   useEffect(() => {
     setTimeout(getState, 100);
     setTimeout(incrementAttempt, 110);
+    // eslint-disable-next-line
   }, [attempt])
 
   // styles
