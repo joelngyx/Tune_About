@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Logo from '../../assets/logo.jpg';
+import Logo from '../../assets/logo.svg';
 import { Helmet } from 'react-helmet';
 import { motion } from 'framer-motion';
 
@@ -20,18 +20,20 @@ const LandingPage = () => {
     }
   }
 
+  // to remove error message dynamically
   useEffect(() => {
     setError('');
   }, [artist, song]);
 
+  // styles
   const title = {color: "black", fontFamily: "Courier New", fontSize: 50, fontWeight: 300};
   const fieldText = {color: "black", fontFamily: "Courier New", fontSize: 20, fontWeight: 200};
-  const submitText = {color: "#DD702C", fontFamily: "Courier New", fontSize: 20, fontWeight: 300, backgroundColor: "black", border: 'none'};
+  const submitText = {color: "#F08756", fontFamily: "Courier New", fontSize: 20, fontWeight: 300, backgroundColor: "black", border: 'none'};
 
   return (
     <motion.div initial={{width: 0}} animate={{width: '100%'}} exit={{x: '100%'}}>
       <Helmet>
-        <style>{"body {background-color: #DD702C; overflow-x: hidden}"}</style>
+        <style>{"body {background-color: #F08756; overflow-x: hidden}"}</style>
       </Helmet>
       <div className='container mt-5 px-0'>
         <div className='row d-flex justify-content-center'>

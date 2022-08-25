@@ -3,28 +3,20 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import Lyrics from './Lyrics';
 import Album from './Album';
 import Posts from './Posts';
+import SelectionButton from './SelectionButton';
 import { motion } from 'framer-motion';
-import Button from 'react-bootstrap/Button';
+import { Helmet } from 'react-helmet';
 
 let albumArt = require('album-art');
 let musicInfo = require('music-info');
 
 const ResultsPage = () => {
   let {state} = useLocation();
-  console.log(state);
-  let navigate = useNavigate();
 
   const [artist, setArtist] = useState('');
   const [song, setSong] = useState('');
   const [attempt, setAttempt] = useState(0);
-
-  const backBtn = () => {
-    try {
-      navigate('../');
-    } catch (e) {
-      console.log(e);
-    }
-  }
+  const [fetchType, setFetchType] = useState(0); // decides which subreddit to get results from
 
   const getState = () => {
     try {
@@ -35,6 +27,7 @@ const ResultsPage = () => {
     }
   }
 
+  // a quick workaround to null props error when navigating between pages 
   const incrementAttempt = () => {
     if (artist === '' || song === '') {
       setAttempt(attempt + 1)
@@ -46,26 +39,34 @@ const ResultsPage = () => {
     setTimeout(incrementAttempt, 110);
   }, [attempt])
 
+  // styles
+  const titleText = {color: "black", fontFamily: "Courier New", fontSize: 18, fontWeight: 800};
+
   if (song === ''|| artist === '') {
     return <h1>loading</h1>
   } else {
     return(
       <motion.div initial={{width: 0}} animate={{width: '100%'}} exit={{x: '100%'}}>
+        <Helmet>
+          <style>{"body {background-color: #F08756; overflow-x: hidden}"}</style>
+        </Helmet>
         <div className='row d-flex justify-content-center'>
-          <div className='col-12 col-md-5'>
-            <div className='container mt-5 p-5' style={{border: '1px solid'}}>
+          <div className='col-12 col-md-5 '>
+            <div className='container mt-3 p-5'>
               <Album artist={artist} song={song}/>
-              <div className='container p-0 mt-5' 
-                style={{border: '1px solid'}}>
+              <div className='container p-0 mt-5'>
                 <Lyrics artist={artist} song={song}/>
               </div>
             </div>
           </div>
-          <div className='col-12 col-md-7 mt-5' style={{border: '1px solid'}}>
-            <Button onClick={() => {
-              backBtn();
-            }}>Look up another song</Button>
-            <Posts artist={artist} song={song}/>
+          <div className='col-12 col-md-7 mt-3 p-5'>
+              <h1 style={titleText}>viewing results from:</h1>
+              <SelectionButton setFetchType={setFetchType} fetchType={fetchType} btnType={0} name="artist's subreddit"/>
+              <SelectionButton setFetchType={setFetchType} fetchType={fetchType} btnType={1} name="r/music"/>
+              <SelectionButton setFetchType={setFetchType} fetchType={fetchType} btnType={2} name="r/all"/>
+            <div className='row'>
+              <Posts artist={artist} song={song} fetchType={fetchType}/>
+            </div>
           </div>
         </div>
       </motion.div>
