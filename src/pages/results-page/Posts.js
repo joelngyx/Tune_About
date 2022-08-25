@@ -1,17 +1,20 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import DefaultImg from '../../assets/default.jpeg';
 import LlamaSVG from '../../assets/llama.svg';
 
 const Posts = (props) => {
   const [posts, setPosts] = useState([]);
+  // eslint-disable-next-line
   const [artist, setArtist] = useState(props.artist.replace(' ', ''));
+  // eslint-disable-next-line
   const [album, setAlbum] = useState('');
+  // eslint-disable-next-line
   const [song, setSong] = useState(props.song);
   const [apiString, setApiString] = useState(`https://www.reddit.com/r/${artist}/search.json?q=${song}%20${album}&restrict_sr=1&sr_nsfw=&sort=relevance&t=all`);
   
   useEffect(() => {
+    // eslint-disable-next-line
     switch (props.fetchType) {
       case 0:
         setApiString(`https://www.reddit.com/r/${artist}/search.json?q=${song}%20${album}&restrict_sr=1&sr_nsfw=&sort=relevance&t=all`);
@@ -23,8 +26,10 @@ const Posts = (props) => {
         setApiString(`https://www.reddit.com/search/.json?q=${song}`);
         break;
     }
+    // eslint-disable-next-line
   }, [props.fetchType])
 
+  // eslint-disable-next-line
   useEffect(() => {
     console.log(props.fetchType);
     const getPostsFromRArtist = async() => {
@@ -63,6 +68,7 @@ const Posts = (props) => {
       }
 
     getPostsFromRArtist().catch(console.log);
+    // eslint-disable-next-line
   }, [apiString])
 
   // styles 
@@ -86,6 +92,7 @@ const Posts = (props) => {
               <div className='col-10 col-md-5 m-3 text-center p-3' style={postStyle}>
                 <h2 style={title}>{post.title}</h2> 
                 <div className='row d-flex justify-content-center'>
+                {/* eslint-disable-next-line */}
                   <img src={post.thumbnail} style={{height: '10rem', width: '15rem', objectFit: 'contain'}}/>
                 </div>
                 <div className='row d-flex justify-content-center'>
@@ -105,6 +112,7 @@ const Posts = (props) => {
     return (
       <Fragment>
         <div className='col-12'>
+        {/* eslint-disable-next-line */}
           <img className='mt-5' src={LlamaSVG} style={{width: '15rem'}}/>
         </div>  
         <div className='col-12'>

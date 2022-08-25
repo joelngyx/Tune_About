@@ -1,5 +1,4 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import Axios from 'axios';
 import Card from 'react-bootstrap/Card';
 import Loading from '../../assets/loading.gif';
 import LlamaSVG from '../../assets/llama.svg';
@@ -7,7 +6,9 @@ import LlamaSVG from '../../assets/llama.svg';
 let musicInfo = require('music-info');
 
 const Lyrics = (props) => {
+  // eslint-disable-next-line
   const [artist, setArtist] = useState(props.artist);
+  // eslint-disable-next-line
   const [song, setSong] = useState(props.song);
   const [lyrics, setLyrics] = useState(0);
   const [cardImage, setCardImage] = useState(Loading);
@@ -33,6 +34,7 @@ const Lyrics = (props) => {
     }
 
     getLyrics();
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {

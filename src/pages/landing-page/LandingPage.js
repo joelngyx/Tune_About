@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Logo from '../../assets/logo.svg';
 import { Helmet } from 'react-helmet';
@@ -37,6 +37,7 @@ const LandingPage = () => {
       </Helmet>
       <div className='container mt-5 px-0'>
         <div className='row d-flex justify-content-center'>
+          {/* eslint-disable-next-line */}
           <img src={Logo} width='350' height='200'/>
         </div>
         <div className='row d-flex justify-content-center'>

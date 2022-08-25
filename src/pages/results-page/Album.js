@@ -1,12 +1,13 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import Card from 'react-bootstrap/Card';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import LlamaSVG from '../../assets/llamaWhite.svg';
 
 let musicInfo = require('music-info');
 
 const Album = (props) => {
+  // eslint-disable-next-line
   const [artist, setArtist] = useState(props.artist);
   const [song, setSong] = useState(props.song);
   const [album, setAlbum] = useState('what album?');
@@ -37,6 +38,7 @@ const Album = (props) => {
     }
   
     getAlbum();
+    // eslint-disable-next-line
   }, [album]);
 
   // styles
