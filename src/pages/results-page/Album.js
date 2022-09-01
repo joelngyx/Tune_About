@@ -3,6 +3,7 @@ import Card from 'react-bootstrap/Card';
 import { useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import LlamaSVG from '../../assets/llamaWhite.svg';
+import LinkTo from './LinkTo';
 
 let musicInfo = require('music-info');
 
@@ -10,7 +11,7 @@ const Album = (props) => {
   // eslint-disable-next-line
   const [artist, setArtist] = useState(props.artist);
   const [song, setSong] = useState(props.song);
-  const [album, setAlbum] = useState('what album?');
+  const [album, setAlbum] = useState('no album found :(');
   const [cover, setCover] = useState(LlamaSVG);
 
   const navigate = useNavigate();
@@ -31,7 +32,7 @@ const Album = (props) => {
         1000
       ).then((value) => {
           setSong(song.toLowerCase());
-          setAlbum(' by ' + value.artist.toLowerCase() + ' from ' + value.album.toLowerCase());
+          setAlbum('from the album ' + value.album.toLowerCase() + ' by ' + value.artist.toLowerCase());
           setCover(value.artwork);
         }
       );
@@ -42,22 +43,23 @@ const Album = (props) => {
   }, [album]);
 
   // styles
-  const btnText = {color: "black", fontFamily: "Courier New", fontSize: 16, fontWeight: 800, backgroundColor: '#8A5656', border: '0px'};
+  const btnText = {color: "white", fontFamily: "Courier New", fontSize: 16, fontWeight: 800, backgroundColor: '#336671', border: '0px'};
   const titleText = {color: 'white', fontFamily: 'Courier New', fontSize: 22, fontWeight: 800};
   const bodyText = {color: 'white', fontFamily: 'Courier New', fontSize: 16, fontWeight: 800};
 
   return(
     <Fragment>
-      <Card className='text-center p-4' style={{backgroundColor: 'black', color: 'white'}}>
-        <Card.Img variant='top' src={cover} style={{width: '10rem', alignSelf: 'center'}}/>
-        <Card.Body style={{alignSelf: 'center'}}>
+      <Card className='text-center p-5' style={{backgroundColor: 'black', color: 'white'}}>
+        <Card.Img variant='top' src={cover} style={{width: '15rem', alignSelf: 'center'}}/>
+        <Card.Body className='mt-3 p-0' style={{alignSelf: 'center'}}>
           <Card.Title style={titleText}>
             {song}
           </Card.Title>
           <Card.Text style={bodyText}>
             {album}
           </Card.Text>
-          <Button onClick={backBtn} style={btnText}>make another search</Button>
+          <LinkTo artist={artist} song={song} website='youtube'/>
+          <Button className='mt-2' onClick={backBtn} style={btnText}>make another search</Button>
         </Card.Body>
       </Card>
     </Fragment>

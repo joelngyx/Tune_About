@@ -31,9 +31,12 @@ const LandingPage = () => {
   const submitText = {color: "#F08756", fontFamily: "Courier New", fontSize: 20, fontWeight: 300, backgroundColor: "black", border: 'none'};
 
   return (
-    <motion.div initial={{width: 0}} animate={{width: '100%'}} exit={{x: '100%'}}>
+    <motion.div 
+      initial={{x: 0, opacity: 0}}
+      animate = {{opacity: 1, transition:{duration: 0.5}}}
+      exit={{opacity: 0 }}>
       <Helmet>
-        <style>{"body {background-color: #F08756; overflow-x: hidden}"}</style>
+        <style>{"body {background-color: #FFA85C; overflow-x: hidden}"}</style>
       </Helmet>
       <div className='container mt-5 px-0'>
         <div className='row d-flex justify-content-center'>

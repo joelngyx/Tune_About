@@ -2,6 +2,7 @@ import React, { Fragment, useEffect, useState } from 'react';
 import Card from 'react-bootstrap/Card';
 import Loading from '../../assets/loading.gif';
 import LlamaSVG from '../../assets/llama.svg';
+import LinkTo from './LinkTo';
 
 let musicInfo = require('music-info');
 
@@ -70,6 +71,12 @@ const Lyrics = (props) => {
                 whiteSpace: 'pre-wrap'
               }}>{cardText}</p>
           </Card.Text>
+          <div className='mt-5' p-0>
+            <h1 style={titleText}>find the meaning of these lyrics from these websites:</h1>
+            <LinkTo artist={artist} song={song} website={'genius'}/>
+            <LinkTo artist={artist} song={song} website={'lyrics-mode'}/>
+            <LinkTo artist={artist} song={song} website={'song-meanings'}/>
+          </div>
         </Card.Body>
       </Card>
     </Fragment>

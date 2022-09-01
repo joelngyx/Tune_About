@@ -2,8 +2,8 @@ import React from "react";
 import Button from 'react-bootstrap/Button';
 
 const SelectionButton = (props) => {
-	const btnText = {color: "black", fontFamily: "Courier New", fontSize: 16, fontWeight: 800, backgroundColor: '#8A5656', border: '0px'};
-  const selectedBtnText = {color: "black", fontFamily: "Courier New", fontSize: 16, fontWeight: 800, backgroundColor: '#8A5656',
+	const btnText = {color: "white", fontFamily: "Courier New", fontSize: 16, fontWeight: 800, backgroundColor: '#336671', border: '0px'};
+  	const selectedBtnText = {color: "white", fontFamily: "Courier New", fontSize: 16, fontWeight: 800, backgroundColor: '#336671',
     border: '0px', textDecoration: 'underline'};
 
 	if (props.fetchType === props.btnType) {

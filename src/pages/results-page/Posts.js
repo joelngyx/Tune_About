@@ -1,7 +1,8 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
-import DefaultImg from '../../assets/default.jpeg';
+import DefaultImg from '../../assets/llamaWhite.svg';
 import LlamaSVG from '../../assets/llama.svg';
+import Card from 'react-bootstrap/Card';
 
 const Posts = (props) => {
   const [posts, setPosts] = useState([]);
@@ -23,7 +24,7 @@ const Posts = (props) => {
         setApiString(`https://www.reddit.com/r/Music/search.json?q=${artist}%20${song}%20${album}&restrict_sr=1&sr_nsfw=&sort=relevance&t=all`);
         break;
       case 2:
-        setApiString(`https://www.reddit.com/search/.json?q=${song}`);
+        setApiString(`https://www.reddit.com/search/.json?q=${artist}%20${song}%20${album}`);
         break;
     }
     // eslint-disable-next-line
@@ -72,11 +73,11 @@ const Posts = (props) => {
   }, [apiString])
 
   // styles 
-  const title = {color: "white", fontFamily: "Courier New", fontSize: 16, fontWeight: 800};
+  const title = {color: "white", fontFamily: "Courier New", fontSize: 18, fontWeight: 800};
   const errorStyle = {color: "black", fontFamily: "Courier New", fontSize: 22, fontWeight: 800};
   const bodyText = {color: "white", fontFamily: "Courier New", fontSize: 16, fontWeight: 100, overflowWrap: 'break-word'};
   const postStyle = {backgroundColor: 'black', borderRadius: '5px', overflowWrap: 'break-word'};
-  const btnText = {color: "black", fontFamily: "Courier New", fontSize: 16, fontWeight: 800, backgroundColor: '#8A5656', border: '0px'};
+  const btnText = {color: "white", fontFamily: "Courier New", fontSize: 16, fontWeight: 800, backgroundColor: '#336671', border: '0px'};
 
   function openTab(permalink) {
     var url = `https://reddit.com/${permalink}`;
@@ -91,19 +92,16 @@ const Posts = (props) => {
           <div className='row d-flex justify-content-center'>
               {posts.map((post) => (
                 <div className='col-10 col-lg-5 m-3 text-center p-3' style={postStyle}>
-                  <h2 style={title}>{post.title}</h2> 
-                  <div className='row d-flex justify-content-center'>
-                  {/* eslint-disable-next-line */}
-                    <img src={post.thumbnail} style={{height: '10rem', width: '15rem', objectFit: 'contain', overflow: 'hidden'}}/>
-                  </div>
-                  <div className='row d-flex justify-content-center'>
-                    <div className='container mx-3 mt-3'>
-                      <p style={bodyText}>{post.selfText}</p>
-                    </div>
-                  </div>
-                  <div className='row d-flex justify-content-center'>
-                  <Button style={btnText} onClick={() => {openTab(post.permalink)}}>view on Reddit</Button>
-                  </div>
+                  <Card className='text-center p-5' style={{backgroundColor: 'black', color: 'white'}}>
+                    <Card.Img variant='top' src={post.thumbnail}/>
+                  </Card>
+                  <Card.Body>
+                    <Card.Title style={title}>{post.title}</Card.Title>
+                    <Card.Text style={bodyText}>{post.selfText}</Card.Text>
+                  </Card.Body>
+                  <Card.Footer>
+                    <Button style={btnText} onClick={() => {openTab(post.permalink)}}>view on Reddit</Button>
+                  </Card.Footer>
                 </div>
               ))}
           </div>

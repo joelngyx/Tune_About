@@ -6,6 +6,7 @@ import Posts from './Posts';
 import SelectionButton from './SelectionButton';
 import { motion } from 'framer-motion';
 import { Helmet } from 'react-helmet';
+import LostPage from '../404-page/LostPage';
 
 // eslint-disable-next-line
 let albumArt = require('album-art');
@@ -46,12 +47,12 @@ const ResultsPage = () => {
   const titleText = {color: "black", fontFamily: "Courier New", fontSize: 18, fontWeight: 800};
 
   if (song === ''|| artist === '') {
-    return <h1>loading</h1>
+    return <LostPage/>
   } else {
     return(
-      <motion.div initial={{width: 0}} animate={{width: '100%'}} exit={{x: '100%'}}>
+      <motion.div initial={{width: 1}} animate={{width: '100%', transition:{duration: 0.5}}} exit={{x: '100%'}}>
         <Helmet>
-          <style>{"body {background-color: #F08756; overflow-x: hidden}"}</style>
+          <style>{"body {background-color: #FFA85C; overflow-x: hidden}"}</style>
         </Helmet>
         <div className='row d-flex justify-content-center'>
           <div className='col-12 col-md-5 p-0'>
@@ -62,9 +63,9 @@ const ResultsPage = () => {
               </div>
             </div>
           </div>
-          <div className='col-12 col-md-7 p-0'>
+          <div className='mt-3 col-12 col-md-7 p-0'>
             <div className='container mt-4 p-3'>
-              <h1 style={titleText}>viewing results from:</h1>
+              <h1 style={titleText}>viewing Reddit results from:</h1>
               <SelectionButton setFetchType={setFetchType} fetchType={fetchType} btnType={0} name="artist's subreddit"/>
               <SelectionButton setFetchType={setFetchType} fetchType={fetchType} btnType={1} name="r/music"/>
               <SelectionButton setFetchType={setFetchType} fetchType={fetchType} btnType={2} name="r/all"/>
