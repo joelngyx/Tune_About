@@ -26,6 +26,7 @@ const LyricMeaningButton = (props) => {
 				setBtnName('SongMeanings.com');
 				break;
 		}
+		// eslint-disable-next-line
 	}, [])
 
 	function openTab() {
