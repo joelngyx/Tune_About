@@ -3,4 +3,4 @@ A web application that finds information about songs. Built with React JS, Boots
 
 Link: https://tunesearcher.netlify.app
 
-All vectors were found from TheNounProject, while images were found from Unsplashed
+All vectors were found from TheNounProject
