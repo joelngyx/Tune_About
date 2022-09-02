@@ -32,6 +32,7 @@ const Album = (props) => {
         {title: `${song}`, artist: `${artist}`}, 
         1000
       ).then((value) => {
+          console.log(value);
           setSong(value.title.toLowerCase());
           setArtist(`artist: ${value.artist.toLowerCase()}`);
           setAlbum(`album: ${value.album.toLowerCase()}`);
@@ -39,7 +40,10 @@ const Album = (props) => {
           setGenre(`genre: ${value.genre.toLowerCase()}`);
           setCover(value.artwork);
         }
-      );
+      ).catch(e => {
+        console.log(e);
+        setArtist('');
+      });
     }
   
     getAlbum();
@@ -60,8 +64,8 @@ const Album = (props) => {
             {song}
           </Card.Title>
           <Card.Text style={bodyText}>
-            {album} <br/>
             {artist} <br/>
+            {album} <br/>
             {year} <br/>
             {genre}
           </Card.Text>
