@@ -12,6 +12,8 @@ const Album = (props) => {
   const [artist, setArtist] = useState(props.artist);
   const [song, setSong] = useState(props.song);
   const [album, setAlbum] = useState('no album found :(');
+  const [year, setYear] = useState('');
+  const [genre, setGenre] = useState('');
   const [cover, setCover] = useState(LlamaSVG);
 
   const navigate = useNavigate();
@@ -26,13 +28,15 @@ const Album = (props) => {
 
   useEffect(() => {
     const getAlbum = async() => {
-      console.log(song, artist)
       musicInfo.searchSong(
         {title: `${song}`, artist: `${artist}`}, 
         1000
       ).then((value) => {
-          setSong(song.toLowerCase());
-          setAlbum('from the album ' + value.album.toLowerCase() + ' by ' + value.artist.toLowerCase());
+          setSong(value.title.toLowerCase());
+          setArtist(`artist: ${value.artist.toLowerCase()}`);
+          setAlbum(`album: ${value.album.toLowerCase()}`);
+          setYear(`year released: ${value.releaseDate.substring(0, 4)}`);
+          setGenre(`genre: ${value.genre.toLowerCase()}`);
           setCover(value.artwork);
         }
       );
@@ -56,7 +60,10 @@ const Album = (props) => {
             {song}
           </Card.Title>
           <Card.Text style={bodyText}>
-            {album}
+            {album} <br/>
+            {artist} <br/>
+            {year} <br/>
+            {genre}
           </Card.Text>
           <LinkTo artist={artist} song={song} website='youtube'/>
           <Button className='mt-2' onClick={backBtn} style={btnText}>make another search</Button>

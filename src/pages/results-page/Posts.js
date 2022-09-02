@@ -32,7 +32,6 @@ const Posts = (props) => {
 
   // eslint-disable-next-line
   useEffect(() => {
-    console.log(props.fetchType);
     const getPostsFromRArtist = async() => {
       await fetch(apiString).then(
         res => {
@@ -42,7 +41,7 @@ const Posts = (props) => {
           res.json().then(data => {
             if (data != null) {
               let results = data.data.children;
-              console.log(results);
+              // console.log(results);
               let temp = [];
 
               for(let count = 0; count < results.length; count++) {
@@ -81,7 +80,6 @@ const Posts = (props) => {
 
   function openTab(permalink) {
     var url = `https://reddit.com/${permalink}`;
-    console.log(url);
     window.open(url, '_blank', 'noopener,noreferrer');
   };
 
