@@ -42,7 +42,9 @@ const Album = (props) => {
         }
       ).catch(e => {
         console.log(e);
-        setArtist('');
+        if (artist.includes('artist: ') === false) {
+          setArtist('');
+        }
       });
     }
   
