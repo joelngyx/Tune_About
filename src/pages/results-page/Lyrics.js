@@ -4,7 +4,6 @@ import Loading from '../../assets/loading.gif';
 import LlamaSVG from '../../assets/llama.svg';
 import LinkTo from './LinkTo';
 
-let musicInfo = require('music-info');
 
 const Lyrics = (props) => {
   // eslint-disable-next-line
@@ -18,25 +17,22 @@ const Lyrics = (props) => {
 
   useEffect(() => {
     const getLyrics = async() => {
-      musicInfo.searchLyrics(
-        {
-          title: `${song}`,
-          artist: `${artist}`
-        }, 5000
-      ).catch(() => {
-        setLyrics(-1);
-      }).then((value) => {
-          if (value !== undefined) {
-            let rawData = value.lyrics;
-            // let result = rawData.replace(/[\n]+/gm, '\n');
-            setLyrics(rawData);
+      await fetch(`https://some-random-api.ml/lyrics/?title=${song}${artist}`)
+        .then(
+          res => {
+            if (res.status !== 200 || res.error) {
+              setLyrics(-1);
+            } else {
+              res.json().then(data => {
+                setLyrics(data.lyrics);
+              })
+            }
           }
-      });
-    }
+        )
+      }
 
     getLyrics();
-    // eslint-disable-next-line
-  }, []);
+  }, [song, artist]);
 
   useEffect(() => {
     switch (lyrics) {

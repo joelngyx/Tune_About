@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 
-const LyricMeaningButton = (props) => {
+const LinkTo = (props) => {
 	const [url, setUrl] = useState('');
 	const [btnName, setBtnName] = useState('')
 	const btnText = {color: "white", fontFamily: "Courier New", fontSize: 16, fontWeight: 800, backgroundColor: '#336671', border: '0px'};
@@ -25,6 +25,10 @@ const LyricMeaningButton = (props) => {
 				setUrl(`https://songmeanings.com/query/?query=${props.artist}%20${props.song}&type=songtitles`);
 				setBtnName('SongMeanings.com');
 				break;
+			case 'reddit':
+				setUrl(`https://reddit.com/${props.permalink}`);
+				setBtnName('view on Reddit');
+				break;
 		}
 		// eslint-disable-next-line
 	}, [])
@@ -34,9 +38,8 @@ const LyricMeaningButton = (props) => {
   };
 
 	return <Button className='m-2' style={btnText} onClick={() => {
-		console.log(props)
 		openTab();
 	}}>{btnName}</Button>
 }
 
-export default LyricMeaningButton;
+export default LinkTo;

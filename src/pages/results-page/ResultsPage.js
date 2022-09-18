@@ -8,10 +8,6 @@ import { motion } from 'framer-motion';
 import { Helmet } from 'react-helmet';
 import LostPage from '../404-page/LostPage';
 
-// eslint-disable-next-line
-let albumArt = require('album-art');
-// eslint-disable-next-line
-let musicInfo = require('music-info');
 
 const ResultsPage = () => {
   let {state} = useLocation();

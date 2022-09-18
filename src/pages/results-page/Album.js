@@ -5,7 +5,6 @@ import Button from 'react-bootstrap/Button';
 import LlamaSVG from '../../assets/llamaWhite.svg';
 import LinkTo from './LinkTo';
 
-let musicInfo = require('music-info');
 
 const Album = (props) => {
   // eslint-disable-next-line
@@ -27,28 +26,37 @@ const Album = (props) => {
   }
 
   useEffect(() => {
-    const getAlbum = async() => {
-      musicInfo.searchSong(
-        {title: `${song}`, artist: `${artist}`}, 
-        1000
-      ).then((value) => {
-          console.log(value);
-          setSong(value.title.toLowerCase());
-          setArtist(`artist: ${value.artist.toLowerCase()}`);
-          setAlbum(`album: ${value.album.toLowerCase()}`);
-          setYear(`year released: ${value.releaseDate.substring(0, 4)}`);
-          setGenre(`genre: ${value.genre.toLowerCase()}`);
-          setCover(value.artwork);
+    const fetchDataFromITunes = async() => {
+      let queryArtist = artist.toLowerCase();
+      let querySong = song.toLowerCase();
+      let searchString = `https://itunes.apple.com/search?term=${querySong}+${queryArtist}&limit=7&entity=song`;
+      await fetch(searchString).then(
+        res => {
+          if (res.status !== 200) {
+            setArtist('');
+          } else {
+            res.json().then(data => {
+              let results = data.results;
+              for(let count = 0; count < results.length; count ++) {
+                // check if the result's artist is the same as the value of the artist passed in the search
+                let resultArtistName = results[count].artistName.toLowerCase();
+                if(resultArtistName === queryArtist) {
+                  setSong(results[count].trackName.toLowerCase());
+                  setArtist(`artist: ${results[count].artistName.toLowerCase()}`);
+                  setAlbum(`album: ${results[count].collectionName.toLowerCase()}`);
+                  setYear(`year released: ${results[count].releaseDate.substring(0, 4)}`);
+                  setGenre(`genre: ${results[count].primaryGenreName.toLowerCase()}`);
+                  setCover(results[count].artworkUrl100.replace(/100x100/, `900x900`));
+                  break;
+                }
+              }
+            })
+          }
         }
-      ).catch(e => {
-        console.log(e);
-        if (artist.includes('artist: ') === false) {
-          setArtist('');
-        }
-      });
+      )
     }
   
-    getAlbum();
+    fetchDataFromITunes();
     // eslint-disable-next-line
   }, [album]);
 

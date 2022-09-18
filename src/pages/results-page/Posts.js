@@ -1,13 +1,13 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import Button from 'react-bootstrap/Button';
 import DefaultImg from '../../assets/llamaWhite.svg';
 import LlamaSVG from '../../assets/llama.svg';
 import Card from 'react-bootstrap/Card';
+import LinkTo from './LinkTo';
 
 const Posts = (props) => {
   const [posts, setPosts] = useState([]);
   // eslint-disable-next-line
-  const [artist, setArtist] = useState(props.artist.replace(' ', ''));
+  const [artist, setArtist] = useState(props.artist.replaceAll(' ', ''));
   // eslint-disable-next-line
   const [album, setAlbum] = useState('');
   // eslint-disable-next-line
@@ -18,12 +18,15 @@ const Posts = (props) => {
     // eslint-disable-next-line
     switch (props.fetchType) {
       case 0:
+        setPosts([]);
         setApiString(`https://www.reddit.com/r/${artist}/search.json?q=${song}%20${album}&restrict_sr=1&sr_nsfw=&sort=relevance&t=all`);
         break;
       case 1:
+        setPosts([]);
         setApiString(`https://www.reddit.com/r/Music/search.json?q=${artist}%20${song}%20${album}&restrict_sr=1&sr_nsfw=&sort=relevance&t=all`);
         break;
       case 2:
+        setPosts([]);
         setApiString(`https://www.reddit.com/search/.json?q=${artist}%20${song}%20${album}`);
         break;
     }
@@ -63,8 +66,7 @@ const Posts = (props) => {
               setPosts(temp);
             } 
           })
-        }
-      )
+        })
       }
 
     getPostsFromRArtist().catch(console.log);
@@ -76,12 +78,6 @@ const Posts = (props) => {
   const errorStyle = {color: "black", fontFamily: "Courier New", fontSize: 22, fontWeight: 800};
   const bodyText = {color: "white", fontFamily: "Courier New", fontSize: 16, fontWeight: 100, overflowWrap: 'break-word'};
   const postStyle = {backgroundColor: 'black', borderRadius: '5px', overflowWrap: 'break-word'};
-  const btnText = {color: "white", fontFamily: "Courier New", fontSize: 16, fontWeight: 800, backgroundColor: '#336671', border: '0px'};
-
-  function openTab(permalink) {
-    var url = `https://reddit.com/${permalink}`;
-    window.open(url, '_blank', 'noopener,noreferrer');
-  };
 
   if (posts.length > 0) {
     return(
@@ -89,7 +85,7 @@ const Posts = (props) => {
         <div className='col-12'>
           <div className='row d-flex justify-content-center'>
               {posts.map((post) => (
-                <div className='col-10 col-lg-5 m-3 text-center p-3' style={postStyle}>
+                <div className='col-10 col-lg-5 m-3 text-center p-3' style={postStyle} key={post.key}>
                   <Card className='text-center p-5' style={{backgroundColor: 'black', color: 'white'}}>
                     <Card.Img variant='top' src={post.thumbnail}/>
                   </Card>
@@ -98,7 +94,7 @@ const Posts = (props) => {
                     <Card.Text style={bodyText}>{post.selfText}</Card.Text>
                   </Card.Body>
                   <Card.Footer>
-                    <Button style={btnText} onClick={() => {openTab(post.permalink)}}>view on Reddit</Button>
+                    <LinkTo permalink={post.permalink} website='reddit'/>
                   </Card.Footer>
                 </div>
               ))}
