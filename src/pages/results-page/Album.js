@@ -10,7 +10,7 @@ const Album = (props) => {
   // eslint-disable-next-line
   const [artist, setArtist] = useState(props.artist);
   const [song, setSong] = useState(props.song);
-  const [album, setAlbum] = useState('no album found :(');
+  const [album, setAlbum] = useState('no album found :( try being more precise with your search! e.g., "the beatles" instead of simply "beatles"');
   const [year, setYear] = useState('');
   const [genre, setGenre] = useState('');
   const [cover, setCover] = useState(LlamaSVG);

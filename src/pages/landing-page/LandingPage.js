@@ -44,7 +44,11 @@ const LandingPage = () => {
           <img src={Logo} width='350' height='200'/>
         </div>
         <div className='row d-flex justify-content-center'>
-          <h1 style={title}>tune-searcher</h1>
+          <h1 style={title}>tune-about</h1>
+        </div>
+        <div className='row d-flex justify-content-center'>
+          <p style={fieldText}>provide a song's name and artist, and this web app <br/> 
+          will return relevant information about it</p>
         </div>
         <div className='row justify-content-center'>
           <form className='mt-3' onSubmit={onSubmitForm}>
@@ -52,7 +56,7 @@ const LandingPage = () => {
               onChange={e => setArtist(e.target.value)}/>
             <input type='text' value={song} className='form-control mt-2' placeholder='enter song name' style={fieldText}
               onChange={e => setSong(e.target.value)}/> 
-            <input type='submit' className='form-control mt-3' value='submit' style={submitText}/>
+            <input type='submit' className='form-control mt-3' value='search' style={submitText}/>
           </form>
         </div>
         <div className='row d-flex justify-content-center'>
