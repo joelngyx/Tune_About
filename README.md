@@ -1,4 +1,4 @@
-# indecisive_web_app
+# Tune_Info
 A web application that finds information about songs. Built with React JS, Bootstrap, Reddit API, and iTunes Search API.
 
 Link: https://tunesearcher.netlify.app
