@@ -46,12 +46,12 @@ const LandingPage = () => {
         <div className='row d-flex justify-content-center'>
           <h1 style={title}>tune-about</h1>
         </div>
-        <div className='row d-flex justify-content-center'>
+        <div className='row d-flex justify-content-center px-3'>
           <p style={fieldText}>provide a song's name and artist, and this web app <br/> 
           will return relevant information about it</p>
         </div>
         <div className='row justify-content-center'>
-          <form className='mt-3' onSubmit={onSubmitForm}>
+          <form className='mt-2' onSubmit={onSubmitForm}>
             <input type='text' value={artist} className='form-control mt-1' placeholder='enter artist name' style={fieldText}
               onChange={e => setArtist(e.target.value)}/>
             <input type='text' value={song} className='form-control mt-2' placeholder='enter song name' style={fieldText}
