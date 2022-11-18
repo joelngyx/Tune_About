@@ -78,6 +78,7 @@ const Posts = (props) => {
   const errorStyle = {color: "black", fontFamily: "Courier New", fontSize: 22, fontWeight: 800};
   const bodyText = {color: "white", fontFamily: "Courier New", fontSize: 16, fontWeight: 100, overflowWrap: 'break-word'};
   const postStyle = {backgroundColor: 'black', borderRadius: '5px', overflowWrap: 'break-word'};
+  const imageStyle = {height: '30vh', objectFit: 'contain'}
 
   if (posts.length > 0) {
     return(
@@ -87,7 +88,7 @@ const Posts = (props) => {
               {posts.map((post) => (
                 <div className='col-10 col-lg-5 m-3 text-center p-3' style={postStyle} key={post.key}>
                   <Card className='text-center p-5' style={{backgroundColor: 'black', color: 'white'}}>
-                    <Card.Img variant='top' src={post.thumbnail}/>
+                    <Card.Img style={imageStyle} variant='top' src={post.thumbnail}/>
                   </Card>
                   <Card.Body>
                     <Card.Title style={title}>{post.title}</Card.Title>
