@@ -59,7 +59,7 @@ const ResultsPage = () => {
               </div>
             </div>
           </div>
-          <div className='mt-3 col-12 col-md-7 p-0'>
+          <div className='mt-3 col-12 col-md-12 p-0'>
             <div className='container mt-4 p-3'>
               <h1 style={titleText}>viewing Reddit results from:</h1>
               <SelectionButton setFetchType={setFetchType} fetchType={fetchType} btnType={0} name="artist's subreddit"/>
