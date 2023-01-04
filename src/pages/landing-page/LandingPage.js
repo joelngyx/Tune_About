@@ -29,6 +29,7 @@ const LandingPage = () => {
   const title = {color: "black", fontFamily: "Courier New", fontSize: 50, fontWeight: 300};
   const fieldText = {color: "black", fontFamily: "Courier New", fontSize: 20, fontWeight: 200};
   const submitText = {color: "#F08756", fontFamily: "Courier New", fontSize: 20, fontWeight: 300, backgroundColor: "black", border: 'none'};
+  const errorText = {color: "red", fontFamily: "Courier New", fontSize: 20, fontWeight: 200};
 
   return (
     <motion.div 
@@ -60,7 +61,7 @@ const LandingPage = () => {
           </form>
         </div>
         <div className='row d-flex justify-content-center'>
-          <p>{error}</p>
+          <p style={errorText}>{error}</p>
         </div>
       </div>
   </motion.div>
