@@ -44,7 +44,7 @@ const Posts = (props) => {
           res.json().then(data => {
             if (data != null) {
               let results = data.data.children;
-              // console.log(results);
+              console.log(results);
               let temp = [];
 
               for(let count = 0; count < results.length; count++) {
