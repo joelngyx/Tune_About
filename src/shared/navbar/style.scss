@@ -1,0 +1,28 @@
+@import "../../shared/styles/variables.scss";
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 50px;
+  background-color: $black1;
+  display: flex;
+
+  .navbar-item {
+    width: 30vw;
+    display: flex;
+    justify-content: center;
+    color: white;
+
+    &:hover {
+      background-color: $black1;
+      color: $yellow1;
+    }
+  }
+
+  .selected {
+    color: $yellow1;
+    text-decoration: underline;
+  }
+}

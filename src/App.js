@@ -2,8 +2,7 @@ import React, { useState } from "react";
 
 /* JSX Components for each section */
 import LandingSection from "./sections/landing";
-import Section1 from "./sections/section-1";
-import Section2 from "./sections/section-2";
+import ResultSection from "./sections/results";
 
 /* Styles */
 import "./shared/styles/main.scss";
@@ -25,10 +24,9 @@ const App = () => {
       );
     case (1): 
       return (
-        <Section1 songName={songName}
-          artistName={artistName}/>);
-    case (2):
-      return (<Section2/>);
+        <ResultSection songName={songName}
+          artistName={artistName}
+          setSection={setSection}/>);
     default:
       return (<p>Looks like something went wrong</p>)
   }
