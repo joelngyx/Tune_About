@@ -16,6 +16,7 @@ const LandingSection = (props) => {
   const songRef = useRef(null);
 
 
+
   /* Checks validity of a field (must not be empty) */
   const checkIfFieldIsValid = (val) => {
     let temp = val.replaceAll(" ", "");
@@ -28,21 +29,23 @@ const LandingSection = (props) => {
   }
 
 
+
   /* Check if url returns an image, to use default image if image cannot be fetched from url */
   const checkIfURLIsValid = (val) => {
     return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(val);
   }
 
 
+
   /* Finds artists that could have made the song provided by users */
   const getSuggestedArtists = () => {
     setSuggestedSongs([]);
+
     if (!checkIfFieldIsValid(song)) {
-      setErrorMsg("Please provide values in the above fields");
+      setErrorMsg("Please provide a song name");
     } else {
-      let queryArtist = artist.toLowerCase();
       let querySong = song.toLowerCase();
-      let searchString = `https://itunes.apple.com/search?term=${querySong}+${queryArtist}&limit=10&entity=song`;
+      let searchString = `https://itunes.apple.com/search?term=${querySong}&limit=10&entity=song`;
 
       fetch (searchString).then (
         (res) => {
@@ -56,13 +59,19 @@ const LandingSection = (props) => {
           for (let i = 0; i < data.results.length; i ++) {
             if (!checkIfURLIsValid(data.results[i].artworkUrl100)) {
               data.results[i].artworkUrl100 = LlamaImg;
+            } else {
+              data.results[i].artworkUrl100 = data.results[i].artworkUrl100.replace(/100x100/, `500x500`);
             }
 
             temp.push(data.results[i]);
           }
-  
-          setSuggestedArtists(temp);
-          setErrorMsg("Possible artists for this song:");
+          
+          if (temp.length > 0) {
+            setSuggestedArtists(temp);
+            setErrorMsg("Possible artists for this song:");
+          } else {
+            setErrorMsg("Could not find anything :(");
+          }
         }
       ).catch(
         (e) => {
@@ -74,11 +83,13 @@ const LandingSection = (props) => {
   }
 
 
+
   /* Finds songs that could have been made by the artist provided by users */
   const getSuggestedSongs = () => {
     setSuggestedArtists([]);
+
     if (!checkIfFieldIsValid(artist)) {
-      setErrorMsg("Please provide values in the above fields");
+      setErrorMsg("Please provide an artist name");
     } else {
       let queryArtist = artist.toLowerCase();
       let searchString = `https://itunes.apple.com/search?term=${queryArtist}&limit=25`;
@@ -95,18 +106,22 @@ const LandingSection = (props) => {
           for (let i = 0; i < data.results.length; i ++) {
             if (!checkIfURLIsValid(data.results[i].artworkUrl100)) {
               data.results[i].artworkUrl100 = LlamaImg;
+            } else {
+              data.results[i].artworkUrl100 = data.results[i].artworkUrl100.replace(/100x100/, `500x500`);
             }
 
             if (data.results[i].wrapperType === "track"
-              && getJaccardIndex(queryArtist, data.results[i].artistName) > 0.2) {
+              && getJaccardIndex(queryArtist, data.results[i].artistName) > 0.25) {
               temp.push(data.results[i]);
             }
           }
 
-          console.log(temp);
-  
-          setSuggestedSongs(temp);
-          setErrorMsg("Possible songs from this artist:");
+          if (temp.length > 0) {
+            setSuggestedSongs(temp);
+            setErrorMsg("Possible artists for this song:");
+          } else {
+            setErrorMsg("Could not find anything :(");
+          }
         }
       ).catch(
         (e) => {
@@ -116,6 +131,8 @@ const LandingSection = (props) => {
       )
     }
   }
+
+
 
   /* Used to check if the suggested results are relevant */
   const getJaccardIndex = (input, result) => {
@@ -140,16 +157,16 @@ const LandingSection = (props) => {
   }
 
 
+
   /* Sets the artist name input, based on the argument passed */
-  const selectArtistName = (val) => {
-    artistRef.current.value = val;
-    setArtist(val);
+  const selectSuggestion = (val1, val2) => {
+    artistRef.current.value = val1;
+    songRef.current.value = val2;
+    setArtist(val1);
+    setSong(val2);
   }
 
-  const selectSongName = (val) => {
-    songRef.current.value = val;
-    setSong(val);
-  }
+
 
   /* Passes song and artist names to the next section, changes current section to 1 */
   const proceedToNextSection = () => {
@@ -163,6 +180,7 @@ const LandingSection = (props) => {
   }
 
   
+
   return (
     <div className="landing">
 
@@ -187,6 +205,14 @@ const LandingSection = (props) => {
           <input placeholder="Provide an artist name"
             onChange={e => setArtist(e.target.value)}
             ref={artistRef}></input>
+          <div className="suggestion-buttons-container">
+            <button className="text-button" onClick={getSuggestedArtists}>
+              Find possible artists
+            </button>
+            <button className="text-button" onClick={getSuggestedSongs}>
+              Find possible songs
+            </button>
+          </div>
           <div className="error-container"><p>{errorMsg}</p></div>
           <div className="suggestions-list">
           {
@@ -195,7 +221,7 @@ const LandingSection = (props) => {
                 return (
                   <div className="suggestions-tile"
                     key={index}
-                    onClick={() => selectSongName(item.trackName)}>
+                    onClick={() => selectSuggestion(item.artistName, item.trackName)}>
                     <img alt="artwork" src={item.artworkUrl100}/>
                     <div>
                       <p>{item.trackName}</p>
@@ -207,7 +233,7 @@ const LandingSection = (props) => {
                 return (
                   <div className="suggestions-tile"
                     key={index}
-                    onClick={() => selectArtistName(item.artistName)}>
+                    onClick={() => selectSuggestion(item.artistName, item.trackName)}>
                     <img alt="artwork" src={item.artworkUrl100}/>
                     <div>
                       <p>{item.artistName}</p>
@@ -218,18 +244,6 @@ const LandingSection = (props) => {
           }
           </div>
           <button className="form-submit-button" onClick={proceedToNextSection}>Get relevant information</button>
-          <button className="text-button" onClick={getSuggestedArtists}>
-            Look up possible artists
-          </button>
-          <button className="text-button" onClick={getSuggestedSongs}>
-            Look up possible songs
-          </button>
-          <button onClick={() => {
-            console.log(suggestedArtists);
-            console.log(suggestedSongs);          
-            }}>
-            debug
-          </button>
         </div>
       </div>  
     </div>

@@ -31,11 +31,31 @@ button {
   }
 }
 
+div {
+  ::-webkit-scrollbar {
+    width: 12px;
+  
+    &-track, &-corner {
+      background-color: transparent;
+    }
+  
+    &-thumb {
+      background-color: #666;
+      border-radius: 10px;
+    }
+  }
+
+}
+
 .text-button {
   border: none;
   text-decoration: underline;
   color: $black1;
   background-color: $orange2;
+
+  &:focus {
+    outline: none;
+  }
 
   &:hover {
     background-color: $orange2;
