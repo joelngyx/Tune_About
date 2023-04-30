@@ -25,7 +25,9 @@ const App = () => {
     case (1): 
       return (
         <ResultSection songName={songName}
+          setSongName={setSongName}
           artistName={artistName}
+          setArtistName={setArtistName}
           setSection={setSection}/>);
     default:
       return (<p>Looks like something went wrong</p>)
