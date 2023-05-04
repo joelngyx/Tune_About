@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+
 import "./style.scss";
 
 
@@ -7,13 +8,8 @@ const InformationTab = (props) => {
   const [lyrics, setLyrics] = useState();
 
 
-  /* Handle errors */
-  const handleError = (e) => {
-    console.log(e);
-  } 
 
-
-  /* Auto-correct function using Jaccard Similarity */
+  /* Function that gets Jaccard Similarity between 2 words */
   const getJaccardIndex = (input, result) => {
     input = input.toLowerCase();
     result = result.toLowerCase();
@@ -35,6 +31,9 @@ const InformationTab = (props) => {
     return (intersection.size / union.size);
   }
 
+
+
+  /* Gets the artist name from the searches that has the highest Jaccard Index with the user's input */
   const getAutoCorrectedWord = (data, queryArtist) => {
     let maxIndex = 0;
     let result;
@@ -48,9 +47,9 @@ const InformationTab = (props) => {
       }
     }
 
-    console.log(data.results[result].artistName)
     return (data.results[result].artistName);
   }
+
 
 
   /* Fetch Album information */
@@ -58,6 +57,8 @@ const InformationTab = (props) => {
     let queryArtist = props.artistName;
     let data = props.dataObject;
     
+    console.log(data);
+
     let correctArtistName = getAutoCorrectedWord(data, queryArtist);
     let correctEntry = getOldestAlbum(data, correctArtistName);
     
@@ -69,18 +70,25 @@ const InformationTab = (props) => {
       artworkURL: correctEntry.artworkUrl100,
       albumName: correctEntry.collectionName,
       albumID: correctEntry.collectionId, 
+      trackNumber: correctEntry.trackNumber,
+      discNumber: correctEntry.discNumber,
       releaseDate: correctEntry.releaseDate.substring(0,4),
-      trackPreview: correctEntry.previewUrl
+      trackPreview: correctEntry.previewUrl,
+      genre: correctEntry.primaryGenreName
     }
 
     setDetails(detailsTemp);
     getLyrics(correctEntry.trackName, correctEntry.artistName);
   }
 
+
+
+  /* Get the most relevant album, by getting the oldest album that is not a compilation album */
   const getOldestAlbum = (data, correctArtistName) => {
     let minDate = new Date();
     let result;
-    let backupResult;
+    let backupResult2;
+    let backupResult1;
 
     for (let i = 0; i < data.resultCount; i ++) {
       let curr = data.results[i];
@@ -91,8 +99,13 @@ const InformationTab = (props) => {
         if (minDate >= tempDate) {
           minDate = tempDate;
           let lowerCaseAlbumName = curr.collectionName.toLowerCase();
-          if (lowerCaseAlbumName.includes("greatest hits") || lowerCaseAlbumName.includes("best of")) {
-            backupResult = curr;
+          if (lowerCaseAlbumName.includes("greatest hits") 
+              || lowerCaseAlbumName.includes("best of")
+              || lowerCaseAlbumName.includes("sped up")
+              || lowerCaseAlbumName.includes("cover")) {
+            backupResult2 = curr;
+          } else if (lowerCaseAlbumName.includes("single")) {
+            backupResult1 = curr;
           } else {
             result = curr;
           }
@@ -101,52 +114,79 @@ const InformationTab = (props) => {
     }
 
     if (result === undefined) {
-      return backupResult;
+      if (backupResult1 === undefined) {
+        return backupResult2;
+      } else {
+        return backupResult1;
+      }
     } else {
       return result;
     }
   } 
 
 
+
   /* Fetch lyrics */
   const getLyrics = (correctSongName, correctArtistName) => {
+    console.log(process.env.REACT_APP_TEST)
     fetch(
-      `https://some-random-api.ml/lyrics/?title=${correctSongName}${correctArtistName}`
+      `https://some-random-api.com/lyrics/?title=${correctSongName}${correctArtistName}`
     ).then(
       (res) => {
         return res.json();
       }
     ).then(
       (data) => {
-        if (data.error) {
-          handleError(data.error);
-        } else {
-          setLyrics(data.lyrics);
-        }
+        setLyrics(data.lyrics);
       }
     ).catch(
       (e) => {
-        console.log(e);
+        console.log("Error getting lyrics");
       }
     )
   }
 
+
+
+  /* On component mount */
   useEffect(() => {
     getAlbumDetails();
+    // eslint-disable-next-line
   }, [])
 
 
+
   return (<div className="information-tab">
+    <div className="song-details-container">
+      {(details) 
+        ? <>
+            <img alt="album art" src={details.artworkURL.replace(/100x100/, `750x750`)}/>
+            <div>
+              <h1>{props.songName}</h1>
+              <p>{props.artistName}</p>
+              <audio preload="true" controls controlsList="nofullscreen nodownload noremoteplayback noplaybackrate" src={details.trackPreview}></audio>
+              <p>{details.albumName} - Track {details.trackNumber} of Disk {details.discNumber}</p>
+              <p>Release Year: {details.releaseDate}</p>
+              <p>Genre: {details.genre}</p>
+            </div>
+          </>
+        : <p>Loading...</p>
+      }
+    </div>
     <div className="lyrics-container">
       {(details) 
         ? <>
-            <p>{props.songName}</p>
-            <p>{props.artistName}</p>
-            <p>{details.albumName}</p>
-            <p>{lyrics}</p>
+            {(lyrics) 
+              ? <>
+                  <p className="bolded">Lyrics</p>
+                  <p>{lyrics}</p>
+                </>
+              : <>
+                  <p className="italicised">Oops, there was an error fetching lyrics</p>
+                </>
+            }
           </>
-        :
-          <p>Loading...</p>
+        : <p>Loading...</p>
       }
     </div>
   </div>)

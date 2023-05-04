@@ -1,6 +1,83 @@
+@import "../../../../shared/styles/variables.scss";
+
 .information-tab {
-  margin-top: 30vh;
+  padding-top: 5vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .song-details-container {
+    width: 80vw;
+    max-width: 400px;
+    background-color: $orange2;
+    box-shadow: 0 6px 20px rgb(0 0 0 / 0.25);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 30px;
+
+    img {
+      height: 80vw;
+      width: 80vw;
+      max-height: 400px;
+      max-width: 400px;
+      margin-bottom: 20px;
+    }
+
+    div {
+      text-align: center;
+      padding-left: 15px;
+      padding-right: 15px;
+
+      p {
+        margin: 5px;
+      }
+
+      audio {
+        width: 60vw;
+        max-width: 300px;
+        box-shadow: 0 6px 20px rgb(0 0 0 / 0.25);
+        background-color: $white3;
+        border-radius: 20px;
+        margin: 15px;
+        z-index: 0;
+      }
+
+      audio::-webkit-media-controls-panel {
+        background-color: $white3;
+      }
+
+      .media-button {
+        background-color: $orange2;
+        border: solid $black1;
+        border-radius: 100px;
+        height: 75px;
+        width: 75px;
+        text-align: center;
+        vertical-align: middle;
+        padding: 17.5px;
+        padding-left: 22.5px;
+        margin: 15px;
+
+        img {
+          height: 35px;
+          width: 35px;
+        }
+
+        &:hover {
+          background-color: $yellow2;
+        }
+      }
+    }
+  }
+
   .lyrics-container {
+    margin-top: 50px;
+    width: 80vw;
+    max-width: 400px;
+    padding: 5px;
+
     p {
       white-space: pre-wrap;
     }

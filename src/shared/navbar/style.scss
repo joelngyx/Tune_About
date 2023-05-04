@@ -8,6 +8,7 @@
   height: 50px;
   background-color: $black1;
   display: flex;
+  z-index: 3;
 
   .navbar-item {
     width: 30vw;

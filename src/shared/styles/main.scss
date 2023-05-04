@@ -13,9 +13,6 @@ body {
   background-color: $white3;
   height: 100vh;
   max-width: 100vw;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 button {
@@ -28,6 +25,10 @@ button {
   &:hover {
     background-color: $yellow2;
     color: $black1;
+  }
+
+  &:focus {
+    outline: none;
   }
 }
 
@@ -53,12 +54,18 @@ div {
   color: $black1;
   background-color: $orange2;
 
-  &:focus {
-    outline: none;
-  }
-
   &:hover {
     background-color: $orange2;
     color: $red1;
   }
+}
+
+.bolded {
+  font-weight: 700;
+  font-size: 25px;
+}
+
+.italicised {
+  text-align: center;
+  font-style: italic;
 }

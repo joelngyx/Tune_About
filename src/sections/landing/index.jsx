@@ -5,6 +5,7 @@ import "./style.scss";
 import Logo from "./assets/logo.svg";
 import LlamaImg from "./assets/llama.png";
 
+
 const LandingSection = (props) => {
   const [artist, setArtist] = useState("")
   const [song, setSong] = useState("");
@@ -45,7 +46,7 @@ const LandingSection = (props) => {
       setErrorMsg("Please provide a song name");
     } else {
       let querySong = song.toLowerCase();
-      let searchString = `https://itunes.apple.com/search?term=${querySong}&limit=10&entity=song`;
+      let searchString = `https://itunes.apple.com/search?term=${querySong}&limit=25&entity=song`;
 
       fetch (searchString).then (
         (res) => {
@@ -53,14 +54,13 @@ const LandingSection = (props) => {
         }
       ).then(
         (data) => {
-          console.log(data);
           let temp = [];
   
           for (let i = 0; i < data.results.length; i ++) {
             if (!checkIfURLIsValid(data.results[i].artworkUrl100)) {
               data.results[i].artworkUrl100 = LlamaImg;
             } else {
-              data.results[i].artworkUrl100 = data.results[i].artworkUrl100.replace(/100x100/, `500x500`);
+              data.results[i].artworkUrl100 = data.results[i].artworkUrl100.replace(/100x100/, `300x300`);
             }
 
             temp.push(data.results[i]);
@@ -111,7 +111,7 @@ const LandingSection = (props) => {
             }
 
             if (data.results[i].wrapperType === "track"
-              && getJaccardIndex(queryArtist, data.results[i].artistName) > 0.25) {
+              && getJaccardIndex(queryArtist, data.results[i].artistName) > 0.10) {
               temp.push(data.results[i]);
             }
           }

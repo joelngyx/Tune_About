@@ -9,11 +9,12 @@ import "./shared/styles/main.scss";
 
 
 const App = () => {
-  /* States */
   const [section, setSection] = useState(0);
 
   const [songName, setSongName] = useState();
   const [artistName, setArtistName] = useState();
+
+
 
   switch (section) {
     case (0):

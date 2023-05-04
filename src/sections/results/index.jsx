@@ -13,12 +13,13 @@ const ResultSection = (props) => {
   const [dataObject, setDataObject] = useState();
   const [isResultEmpty, setIsResultEmpty] = useState(true);
 
+  
 
   /* Check if there are search results */
   const getSearchResults = () => {
     let queryArtist = props.artistName;
     let querySong = props.songName;
-    let searchString = `https://itunes.apple.com/search?term=${querySong}+${queryArtist}&limit=25&entity=song`;
+    let searchString = `https://itunes.apple.com/search?term=${querySong}+${queryArtist}&limit=45&entity=song`;
     
     fetch(
       searchString
@@ -38,17 +39,22 @@ const ResultSection = (props) => {
     )
   }
 
+
+
+  /* On component mount */
   useEffect(() => {
     getSearchResults();
+    // eslint-disable-next-line
   }, [])
 
 
+  
   return (
     <div className="results">
       <NavBar setSection={props.setSection}
         setCurrentTab={setCurrentTab}/>
       {(!isResultEmpty) 
-        ? <div className="info-container">
+        ? <div className="results-container">
             {(currentTab === 0) 
               ? <InformationTab songName={props.songName}
                   setSongName={props.setSongName}
@@ -60,7 +66,6 @@ const ResultSection = (props) => {
           </div>
         : <>Nothing found</>
       }
-      
     </div>
   )
 }

@@ -7,10 +7,14 @@ const NavBar = (props) => {
   const informationTabRef = useRef(null);
   const redditPostsTabRef = useRef(null);
   
+
+
   /* Go back to landing section */
   const goToLandingSection = () => {
     props.setSection(0);
   }
+
+
 
   /* Switch to Song information tab */
   const switchToInformationTab = () => {
@@ -19,6 +23,8 @@ const NavBar = (props) => {
     redditPostsTabRef.current.classList.remove("selected");
   }
 
+
+  
   /* Switch to Reddit posts tab */
   const switchToRedditPostsTab = () => {
     props.setCurrentTab(1);
@@ -26,10 +32,13 @@ const NavBar = (props) => {
     informationTabRef.current.classList.remove("selected");
   }
 
+
+
   useEffect(() => {
     switchToInformationTab();
     // eslint-disable-next-line
   }, []);
+
 
 
   return (
