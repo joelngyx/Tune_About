@@ -1,6 +1,36 @@
 .results {
+
   .results-container {
     width: 100vw;
     padding: 7.5vw;
+  }
+
+  .results-error {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 15vh;
+
+    h2 {
+      font-size: 30px;
+      font-weight: 700;
+    }
+
+    p {
+      text-align: center;
+      width: 250px;
+    }
+
+    img {
+      height: 300px;
+      width: 300px;
+      margin-bottom: 10px;
+    }
+
+    button {
+      margin-top: 25px;
+      width: 150px;
+    }
   }
 }

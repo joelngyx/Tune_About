@@ -56,8 +56,6 @@ const InformationTab = (props) => {
   const getAlbumDetails = () => {
     let queryArtist = props.artistName;
     let data = props.dataObject;
-    
-    console.log(data);
 
     let correctArtistName = getAutoCorrectedWord(data, queryArtist);
     let correctEntry = getOldestAlbum(data, correctArtistName);
@@ -78,6 +76,7 @@ const InformationTab = (props) => {
     }
 
     setDetails(detailsTemp);
+    props.setAlbum(correctEntry.collectionName);
     getLyrics(correctEntry.trackName, correctEntry.artistName);
   }
 
@@ -95,7 +94,7 @@ const InformationTab = (props) => {
 
       if (correctArtistName === curr.artistName) {
         let tempDate = new Date(curr.releaseDate);
-        console.log(`${i} ${curr.collectionName} mindate: ${minDate}, tempdate: ${tempDate}`);
+        // console.log(`${i} ${curr.collectionName} mindate: ${minDate}, tempdate: ${tempDate}`);
         if (minDate >= tempDate) {
           minDate = tempDate;
           let lowerCaseAlbumName = curr.collectionName.toLowerCase();
@@ -104,7 +103,8 @@ const InformationTab = (props) => {
               || lowerCaseAlbumName.includes("sped up")
               || lowerCaseAlbumName.includes("cover")) {
             backupResult2 = curr;
-          } else if (lowerCaseAlbumName.includes("single")) {
+          } else if (lowerCaseAlbumName.includes("single")
+              || lowerCaseAlbumName.includes("ep")) {
             backupResult1 = curr;
           } else {
             result = curr;
@@ -128,7 +128,6 @@ const InformationTab = (props) => {
 
   /* Fetch lyrics */
   const getLyrics = (correctSongName, correctArtistName) => {
-    console.log(process.env.REACT_APP_TEST)
     fetch(
       `https://some-random-api.com/lyrics/?title=${correctSongName}${correctArtistName}`
     ).then(
@@ -141,7 +140,7 @@ const InformationTab = (props) => {
       }
     ).catch(
       (e) => {
-        console.log("Error getting lyrics");
+        console.log(e.message);
       }
     )
   }

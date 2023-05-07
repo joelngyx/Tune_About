@@ -4,6 +4,7 @@ import NavBar from "../../shared/navbar/";
 import InformationTab from "./tabs/information";
 import RedditPostsTab from "./tabs/reddit-posts";
 
+import LlamaSVG from "./assets/llama.svg";
 import "./style.scss";
 
 
@@ -12,6 +13,7 @@ const ResultSection = (props) => {
   const [currentTab, setCurrentTab] = useState(0);
   const [dataObject, setDataObject] = useState();
   const [isResultEmpty, setIsResultEmpty] = useState(true);
+  const [album, setAlbum] = useState();
 
   
 
@@ -19,13 +21,17 @@ const ResultSection = (props) => {
   const getSearchResults = () => {
     let queryArtist = props.artistName;
     let querySong = props.songName;
-    let searchString = `https://itunes.apple.com/search?term=${querySong}+${queryArtist}&limit=45&entity=song`;
+    let searchString = `https://itunes.apple.com/search?term=${querySong}+${queryArtist}&limit=75&entity=song`;
     
     fetch(
       searchString
     ).then(
       (res) => {
-        return res.json();
+        if (!res.ok) {
+          throw new Error("Error fetching from iTunes");
+        } else {
+          return res.json();
+        }
       }
     ).then(
       (data) => {
@@ -33,10 +39,14 @@ const ResultSection = (props) => {
           if (data.resultCount > 0) {
             setIsResultEmpty(false);
             setDataObject(data);
+          } else if (data.resultCount === 0) {
+            throw new Error("Error fetching from iTunes");
           }
         }
       }
-    )
+    ).catch((e) => {
+      setIsResultEmpty(true)
+    })
   }
 
 
@@ -51,8 +61,10 @@ const ResultSection = (props) => {
   
   return (
     <div className="results">
-      <NavBar setSection={props.setSection}
-        setCurrentTab={setCurrentTab}/>
+      {(!isResultEmpty) 
+        ? <NavBar setSection={props.setSection}
+            setCurrentTab={setCurrentTab}/>
+        : <></>}
       {(!isResultEmpty) 
         ? <div className="results-container">
             {(currentTab === 0) 
@@ -60,11 +72,18 @@ const ResultSection = (props) => {
                   setSongName={props.setSongName}
                   artistName={props.artistName}
                   setArtistName={props.setArtistName}
-                  dataObject={dataObject}/> 
+                  dataObject={dataObject}
+                  setAlbum={setAlbum}/> 
               : <RedditPostsTab songName={props.songName}
-                  artistName={props.artistName}/>}
+                  artistName={props.artistName}
+                  album={album}/>}
           </div>
-        : <>Nothing found</>
+        : <div className="results-error">
+            <img alt="error llama" src={LlamaSVG}></img>
+            <h2>Nothing found</h2>
+            <p>This could be due to an incorrect spelling. Try making another search!</p>
+            <button onClick={() => {props.setSection(0)}}>Back</button>
+          </div>
       }
     </div>
   )
