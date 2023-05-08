@@ -78,6 +78,17 @@
     max-width: 400px;
     padding: 5px;
 
+    div {
+      display: flex;
+      flex-direction: row;
+    }
+
+    button {
+      margin-left: 20px;
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+
     p {
       white-space: pre-wrap;
     }

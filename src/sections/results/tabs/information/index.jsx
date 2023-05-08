@@ -98,8 +98,9 @@ const InformationTab = (props) => {
         if (minDate >= tempDate) {
           minDate = tempDate;
           let lowerCaseAlbumName = curr.collectionName.toLowerCase();
-          if (lowerCaseAlbumName.includes("greatest hits") 
+          if (lowerCaseAlbumName.includes("greatest") 
               || lowerCaseAlbumName.includes("best of")
+              || lowerCaseAlbumName.includes("hits")
               || lowerCaseAlbumName.includes("sped up")
               || lowerCaseAlbumName.includes("cover")) {
             backupResult2 = curr;
@@ -177,7 +178,13 @@ const InformationTab = (props) => {
         ? <>
             {(lyrics) 
               ? <>
-                  <p className="bolded">Lyrics</p>
+                  <div>
+                    <p className="bolded">Lyrics</p>
+                    <button onClick={() => {
+                      let url = `https://genius.com/${props.artistName.replaceAll(' ', '-')}-${props.songName.replaceAll(' ', '-')}-lyrics`
+                      window.open(url, '_blank', 'noopener,noreferrer');
+                    }}>View on Genius.com</button>
+                  </div>
                   <p>{lyrics}</p>
                 </>
               : <>
