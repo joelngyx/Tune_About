@@ -59,13 +59,17 @@ const LandingSection = (props) => {
           let temp = [];
   
           for (let i = 0; i < data.results.length; i ++) {
-            if (!checkIfURLIsValid(data.results[i].artworkUrl100)) {
-              data.results[i].artworkUrl100 = LlamaImg;
-            } else {
-              data.results[i].artworkUrl100 = data.results[i].artworkUrl100.replace(/100x100/, `300x300`);
-            }
+            const isArtistSuggested = temp.some(item => item.artistName === data.results[i].artistName);
 
-            temp.push(data.results[i]);
+            if (!isArtistSuggested) {
+              if (!checkIfURLIsValid(data.results[i].artworkUrl100)) {
+                data.results[i].artworkUrl100 = LlamaImg;
+              } else {
+                data.results[i].artworkUrl100 = data.results[i].artworkUrl100.replace(/100x100/, `300x300`);
+              }
+  
+              temp.push(data.results[i]);
+            }
           }
           
           if (temp.length > 0) {
@@ -102,7 +106,6 @@ const LandingSection = (props) => {
         }
       ).then(
         (data) => {
-          console.log(data)
           let temp = [];
   
           for (let i = 0; i < data.results.length; i ++) {
