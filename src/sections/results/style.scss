@@ -1,8 +1,21 @@
+@keyframes slide-to-right-results {
+  0% {
+    transform: translateX(-100vw);
+  }
+  85% {
+    transform: translateX(10vw);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
 .results {
 
   .results-container {
     width: 100vw;
     padding: 7.5vw;
+    animation: slide-to-right-results 1s ease-in-out 0s forwards;
   }
 
   .results-error {

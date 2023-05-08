@@ -21,7 +21,8 @@ const App = () => {
       return (
         <LandingSection setSongName={setSongName}
           setArtistName={setArtistName}
-          setSection={setSection}/>
+          setSection={setSection}
+          section={section}/>
       );
     case (1): 
       return (

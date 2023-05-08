@@ -16,6 +16,8 @@ const LandingSection = (props) => {
   const artistRef = useRef(null);
   const songRef = useRef(null);
 
+  const landingDivRef = useRef(null);
+
 
 
   /* Checks validity of a field (must not be empty) */
@@ -171,9 +173,13 @@ const LandingSection = (props) => {
   /* Passes song and artist names to the next section, changes current section to 1 */
   const proceedToNextSection = () => {
     if (checkIfFieldIsValid(song) && checkIfFieldIsValid(artist)) {
-      props.setSongName(song);
-      props.setArtistName(artist);
-      props.setSection(1);
+      landingDivRef.current.style.animation = "slide-to-right 1s ease-in-out 0s forwards";
+
+      setTimeout(() => {
+        props.setSongName(song);
+        props.setArtistName(artist);
+        props.setSection(1);
+      }, 1000);
     } else {
       setErrorMsg("Please provide values in the above fields");
     }
@@ -182,7 +188,8 @@ const LandingSection = (props) => {
   
 
   return (
-    <div className="landing">
+    <div className="landing"
+      ref={landingDivRef}>
 
       {/* This container contains the app's logo, name and description */}
       <div className="landing-container-1 landing-container">

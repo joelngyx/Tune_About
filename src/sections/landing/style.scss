@@ -3,6 +3,42 @@
 $minWidth: 1250px;
 $paddingVal: 15vw;
 
+@keyframes slide-in-from-left {
+  0% {
+    transform: translateX(-500px);
+  }
+  75% {
+    transform: translateX(75px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}
+
+@keyframes slide-in-from-right {
+  0% {
+    transform: translateX(500px);
+  }
+  75% {
+    transform: translateX(-75px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}
+
+@keyframes slide-to-right {
+  0% {
+    transform: translateX(0px);
+  }
+  25% {
+    transform: translateX(-10vw);
+  }
+  100% {
+    transform: translateX(100vw);
+  }
+}
+
 .landing {
   width: 100vw;
   height: 100vh;
@@ -24,6 +60,7 @@ $paddingVal: 15vw;
   /* The container on the left */
   .landing-container-1 {
     justify-content: center;
+    animation: slide-in-from-left 1s ease-in-out 0s forwards;
 
     @media screen and (min-width: $minWidth) {
       padding-left: $paddingVal;
@@ -65,6 +102,7 @@ $paddingVal: 15vw;
     justify-content: center;
     align-items: center;
     margin-top: 2.5vh;
+    animation: slide-in-from-right 1s ease-in-out 0s forwards;
 
     @media screen and (min-width: $minWidth) {
       margin-top: 0vh;
