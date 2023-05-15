@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import getJaccardIndex from "../../shared/functions/getJaccardIndex";
 
 import "./style.scss";
 
@@ -77,6 +78,7 @@ const LandingSection = (props) => {
             setErrorMsg("Possible artists for this song:");
           } else {
             setErrorMsg("Could not find anything :(");
+            setSuggestedArtists([]);
           }
         }
       ).catch(
@@ -98,7 +100,7 @@ const LandingSection = (props) => {
       setErrorMsg("Please provide an artist name");
     } else {
       let queryArtist = artist.toLowerCase();
-      let searchString = `https://itunes.apple.com/search?term=${queryArtist}&limit=25`;
+      let searchString = `https://itunes.apple.com/search?term=${queryArtist}&limit=50`;
 
       fetch (searchString).then (
         (res) => {
@@ -116,16 +118,17 @@ const LandingSection = (props) => {
             }
 
             if (data.results[i].wrapperType === "track"
-              && getJaccardIndex(queryArtist, data.results[i].artistName) > 0.10) {
+              && getJaccardIndex(queryArtist, data.results[i].artistName) > 0.9) {
               temp.push(data.results[i]);
             }
           }
 
           if (temp.length > 0) {
             setSuggestedSongs(temp);
-            setErrorMsg("Possible artists for this song:");
+            setErrorMsg("Possible songs for this artist:");
           } else {
             setErrorMsg("Could not find anything :(");
+            setSuggestedSongs([]);
           }
         }
       ).catch(
@@ -135,30 +138,6 @@ const LandingSection = (props) => {
         }
       )
     }
-  }
-
-
-
-  /* Used to check if the suggested results are relevant */
-  const getJaccardIndex = (input, result) => {
-    input = input.toLowerCase();
-    result = result.toLowerCase();
-
-    let userInputSet = new Set(); // a set of letters in the user's input
-    let searchResultSet = new Set(); // a set of letters in the search's output
-
-    for (let i = 0; i < input.length; i ++) {
-      userInputSet.add(input.charAt(i));
-    }
-
-    for (let j = 0; j < result.length; j ++) {
-      searchResultSet.add(result.charAt(j));
-    }
-
-    let intersection = new Set([...userInputSet].filter(val => searchResultSet.has(val)));
-    let union = new Set([...userInputSet, ...searchResultSet]);
-
-    return (intersection.size / union.size);
   }
 
 

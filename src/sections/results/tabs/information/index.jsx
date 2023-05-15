@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import getJaccardIndex from "../../../../shared/functions/getJaccardIndex";
 
 import "./style.scss";
 
@@ -6,30 +7,7 @@ import "./style.scss";
 const InformationTab = (props) => {
   const [details, setDetails] = useState();
   const [lyrics, setLyrics] = useState();
-
-
-
-  /* Function that gets Jaccard Similarity between 2 words */
-  const getJaccardIndex = (input, result) => {
-    input = input.toLowerCase();
-    result = result.toLowerCase();
-
-    let userInputSet = new Set(); // a set of letters in the user's input
-    let searchResultSet = new Set(); // a set of letters in the search's output
-
-    for (let i = 0; i < input.length; i ++) {
-      userInputSet.add(input.charAt(i));
-    }
-
-    for (let j = 0; j < result.length; j ++) {
-      searchResultSet.add(result.charAt(j));
-    }
-
-    let intersection = new Set([...userInputSet].filter(val => searchResultSet.has(val)));
-    let union = new Set([...userInputSet, ...searchResultSet]);
-
-    return (intersection.size / union.size);
-  }
+  const [errorMsg, setErrorMsg] = useState("Fetching lyrics...");
 
 
 
@@ -60,8 +38,8 @@ const InformationTab = (props) => {
     let correctArtistName = getAutoCorrectedWord(data, queryArtist);
     let correctEntry = getOldestAlbum(data, correctArtistName);
     
-    props.setSongName(correctEntry.trackName);
     props.setArtistName(correctEntry.artistName);
+    props.setSongName(correctEntry.trackName);
 
     const detailsTemp = {
       artistID: correctEntry.artistId,
@@ -77,6 +55,7 @@ const InformationTab = (props) => {
 
     setDetails(detailsTemp);
     props.setAlbum(correctEntry.collectionName);
+    
     getLyrics(correctEntry.trackName, correctEntry.artistName);
   }
 
@@ -92,7 +71,7 @@ const InformationTab = (props) => {
     for (let i = 0; i < data.resultCount; i ++) {
       let curr = data.results[i];
 
-      if (correctArtistName === curr.artistName) {
+      if (correctArtistName === curr.artistName && getJaccardIndex(props.songName, curr.trackName) > 0.9) {
         let tempDate = new Date(curr.releaseDate);
         // console.log(`${i} ${curr.collectionName} mindate: ${minDate}, tempdate: ${tempDate}`);
         if (minDate >= tempDate) {
@@ -100,9 +79,11 @@ const InformationTab = (props) => {
           let lowerCaseAlbumName = curr.collectionName.toLowerCase();
           if (lowerCaseAlbumName.includes("greatest") 
               || lowerCaseAlbumName.includes("best of")
+              || lowerCaseAlbumName.includes("select")
               || lowerCaseAlbumName.includes("hits")
               || lowerCaseAlbumName.includes("sped up")
-              || lowerCaseAlbumName.includes("cover")) {
+              || lowerCaseAlbumName.includes("cover")
+              || lowerCaseAlbumName.includes("live")) {
             backupResult2 = curr;
           } else if (lowerCaseAlbumName.includes("single")
               || lowerCaseAlbumName.includes("ep")) {
@@ -151,6 +132,9 @@ const InformationTab = (props) => {
   /* On component mount */
   useEffect(() => {
     getAlbumDetails();
+    setTimeout(() => {
+      setErrorMsg("Oops, could not find lyrics :(");
+    }, 20000);
     // eslint-disable-next-line
   }, [])
 
@@ -181,14 +165,14 @@ const InformationTab = (props) => {
                   <div>
                     <p className="bolded">Lyrics</p>
                     <button onClick={() => {
-                      let url = `https://genius.com/${props.artistName.replaceAll(' ', '-')}-${props.songName.replaceAll(' ', '-')}-lyrics`
+                      let url = `https://genius.com/${props.artistName.replaceAll(' ', '-').replaceAll('&', 'and')}-${props.songName.replaceAll(' ', '-')}-lyrics`
                       window.open(url, '_blank', 'noopener,noreferrer');
                     }}>View on Genius.com</button>
                   </div>
                   <p>{lyrics}</p>
                 </>
               : <>
-                  <p className="italicised">Oops, there was an error fetching lyrics</p>
+                  <p className="italicised">{errorMsg}</p>
                 </>
             }
           </>

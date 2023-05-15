@@ -14,6 +14,7 @@ const ResultSection = (props) => {
   const [dataObject, setDataObject] = useState();
   const [isResultEmpty, setIsResultEmpty] = useState(true);
   const [album, setAlbum] = useState();
+  const [hasWaited, setHasWaited] = useState();
 
   
 
@@ -54,6 +55,9 @@ const ResultSection = (props) => {
   /* On component mount */
   useEffect(() => {
     getSearchResults();
+    setTimeout(() => {
+      setHasWaited(true);
+    }, 7000);
     // eslint-disable-next-line
   }, [])
 
@@ -80,8 +84,16 @@ const ResultSection = (props) => {
           </div>
         : <div className="results-error">
             <img alt="error llama" src={LlamaSVG}></img>
-            <h2>Nothing found</h2>
-            <p>This could be due to an incorrect spelling. Try making another search!</p>
+            {(!hasWaited)
+              ?
+                <>
+                  <h2>Loading...</h2>
+                  <p>Fetching data from places...</p>
+                </>
+              : <>
+                  <h2>Nothing found</h2>
+                  <p>This could be due to an incorrect spelling. Try making another search!</p>
+                </>}
             <button onClick={() => {props.setSection(0)}}>Back</button>
           </div>
       }
